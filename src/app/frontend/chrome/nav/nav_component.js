@@ -13,9 +13,9 @@
 // limitations under the License.
 
 import {stateName as aboutState} from '../../about/state';
-import {stateName as artifactState} from '../../artifact/state';
 import {stateName as clusterState} from '../../cluster/state';
 import {stateName as configState} from '../../config/state';
+import {stateName as artifactState} from '../../artifact/list/state';
 import {stateName as configMapState} from '../../configmap/list/state';
 import {stateName as daemonSetState} from '../../daemonset/list/state';
 import {stateName as deploymentState} from '../../deployment/list/state';

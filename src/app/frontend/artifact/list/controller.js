@@ -12,8 +12,22 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-/** Name of the state. */
-export const stateName = 'artifact';
+/**
+ * Controller for the config map list view.
+ *
+ * @final
+ */
+export class ArtifactListController {
+  /**
+   * @param {!backendApi.ArtifactList} artifactList
+   * @param {!angular.Resource} kdArtifactListResource
+   * @ngInject
+   */
+  constructor(artifactList, kdArtifactListResource) {
+    /** @export {!backendApi.ArtifactList} */
+    this.artifactList = artifactList;
 
-/** Absolute URL of the state. */
-export const stateUrl = '/artifact';
+    /** @export {!angular.Resource} */
+    this.artifactListResource = kdArtifactListResource;
+  }
+}

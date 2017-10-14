@@ -12,23 +12,21 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-@import '../variables';
+package handler
 
+import (
+	"os"
+    "path/filepath"
+)
 
-.kd-about-kubernetes-logo {
-  height: $logo-height;
-  padding-right: $baseline-grid * 2;
-}
+func handleArtifactsFileLIst() ([]string, error) {
+	var files []string
+	root := "/Users/ami/ltx/dashboard/src/app/backend/handler"
 
-.kd-about-button {
-  margin: ($baseline-grid * 2) 0;
-}
+	err := filepath.Walk(root, func(path string, info os.FileInfo, err error) error {
+        files = append(files, path)
+        return nil
+    })
 
-.kd-copyright-title {
-  padding-top: $baseline-grid * 8;
-}
-
-.kd-footer {
-  color: $foreground-2;
-  font-size: $footer-font-size-base;
+	return files, err
 }

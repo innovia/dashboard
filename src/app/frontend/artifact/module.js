@@ -12,19 +12,32 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+import chromeModule from '../chrome/module';
+import componentsModule from '../common/components/module';
+import filtersModule from '../common/filters/module';
+import eventsModule from '../events/module';
+
+import {artifactCardComponent} from './list/card_component';
+import {artifactCardListComponent} from './list/cardlist_component';
+import {artifactListResource} from './list/stateconfig';
 import stateConfig from './stateconfig';
 
 /**
- * Angular module for the artifact view.
- *
- * The view shows details artifact the installation enviornment. The information
- * can be used when creating issues.
+ * Angular module for the artifact resource.
  */
 export default angular
     .module(
         'kubernetesDashboard.artifact',
         [
           'ngMaterial',
+          'ngResource',
           'ui.router',
+          chromeModule.name,
+          componentsModule.name,
+          eventsModule.name,
+          filtersModule.name,
         ])
-    .config(stateConfig);
+    .config(stateConfig)
+    .component('kdArtifactCard', artifactCardComponent)
+    .component('kdArtifactCardList', artifactCardListComponent)
+    .factory('kdArtifactListResource', artifactListResource);

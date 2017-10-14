@@ -12,39 +12,29 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-
 import {stateName as chromeStateName} from '../chrome/state';
-import {breadcrumbsConfig} from '../common/components/breadcrumbs/service';
 
-import {AboutController} from './controller';
-import {stateName, stateUrl} from './state';
-
+import {stateName as listState} from './list/state';
+import {config as listConfig} from './list/stateconfig';
+import {stateName} from './state';
 /**
- * Configures states for the about view.
+ * Configures states for the Config Map resource.
  *
  * @param {!ui.router.$stateProvider} $stateProvider
  * @ngInject
  */
 export default function stateConfig($stateProvider) {
-  $stateProvider.state(stateName, {
-    url: stateUrl,
-    parent: chromeStateName,
-    views: {
-      '': {
-        controller: AboutController,
-        controllerAs: '$ctrl',
-        templateUrl: 'artifact/about.html',
-      },
-    },
-    data: {
-      [breadcrumbsConfig]: {
-        'label': i18n.MSG_BREADCRUMBS_ABOUT_LABEL,
-      },
-    },
-  });
+  $stateProvider.state(stateName, config)
+      .state(listState, listConfig);
 }
 
-const i18n = {
-  /** @type {string} @desc Label 'About' that appears as a breadcrumbs on the action bar. */
-  MSG_BREADCRUMBS_ABOUT_LABEL: goog.getMsg('About'),
+/**
+ * Config state object for the Config Map abstract state.
+ *
+ * @type {!ui.router.StateConfig}
+ */
+const config = {
+  abstract: true,
+  parent: chromeStateName,
+  template: '<ui-view/>',
 };

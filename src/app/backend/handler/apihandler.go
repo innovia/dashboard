@@ -54,6 +54,7 @@ import (
 	"github.com/kubernetes/dashboard/src/app/backend/resource/replicaset"
 	"github.com/kubernetes/dashboard/src/app/backend/resource/replicationcontroller"
 	"github.com/kubernetes/dashboard/src/app/backend/resource/secret"
+	"github.com/kubernetes/dashboard/src/app/backend/resource/artifacts"
 	resourceService "github.com/kubernetes/dashboard/src/app/backend/resource/service"
 	"github.com/kubernetes/dashboard/src/app/backend/resource/statefulset"
 	"github.com/kubernetes/dashboard/src/app/backend/resource/storageclass"
@@ -146,6 +147,11 @@ func CreateHTTPAPIHandler(iManager integration.IntegrationManager, cManager clie
 			To(apiHandler.handleDeployFromFile).
 			Reads(deployment.AppDeploymentFromFileSpec{}).
 			Writes(deployment.AppDeploymentFromFileResponse{}))
+
+	apiV1Ws.Route(
+		apiV1Ws.GET("/artifacts").
+			To(apiHandler.handleArtifacts).
+			Writes(artifacts.ListFiles{}))
 
 	apiV1Ws.Route(
 		apiV1Ws.GET("/replicationcontroller").
@@ -2167,6 +2173,21 @@ func (apiHandler *APIHandler) handleLogs(request *restful.Request, response *res
 		return
 	}
 	response.WriteHeaderAndEntity(http.StatusOK, result)
+}
+
+func (apiHandler *APIHandler) handleArtifacts(request *restful.Request, response *restful.Response) {
+	file_list, err := handleArtifactsFileLIst()
+
+	errorMessage := ""
+
+	if err != nil {
+		errorMessage = err.Error()
+	}
+
+	response.WriteHeaderAndEntity(http.StatusCreated, artifacts.ListFiles{
+		FileList: file_list,
+		Error:   errorMessage,
+	})
 }
 
 func (apiHandler *APIHandler) handleLogFile(request *restful.Request, response *restful.Response) {
